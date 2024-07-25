@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $productId = $_POST['product_id'];
@@ -10,9 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $endTime = $_POST['end_time'];
     $discountPercentage = $_POST['discount_percentage'];
 
-    if (!isset($_SESSION['products'])) {
-        $_SESSION['products'] = $products;
-    }
     $products = $_SESSION['products'];
 
     foreach ($products as &$product) {
@@ -30,7 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $_SESSION['products'] = $products;
 
-    header('Location: views/admin.php');
+    $_SESSION['success_message'] = "Offer successfully saved for " . $product['name'];
+
+    header('Location: ../views/admin.php');
     exit();
 }
 ?>
